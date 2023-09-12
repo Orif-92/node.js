@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitoblar Katalogi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div>
+    <input type="text" id="search-input" placeholder="Kitob ID ni kiriting">
+    <button onclick="findBookById()">Qidirish</button>
+</div>
+    <h1>Kitoblar</h1>
+    <div id="book-list">
+        <!-- Kitoblar ro'yxati shu joyda chiqadi -->
+    </div>
+    <div id="book-form">
+        <h2>Kitob qo'shish</h2>
+        <label for="title">Sarlavha:</label>
+        <input type="text" id="title" required>
+        <label for="author">Muallif:</label>
+        <input type="text" id="author" required>
+        <button onclick="addBook()">Qo'shish</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

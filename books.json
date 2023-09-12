@@ -1,12 +1,27 @@
 [
   {
-    "id": 1,
     "title": "Odam bo'lish qiyin",
-    "author": "O'tkir Hoshimov"
+    "author": "O'tkir Hoshimov",
+    "id": 1
   },
   {
-    "id": 2,
     "title": "Sariq devni minib",
-    "author": "Xudoyberdi To'xtaboyev"
+    "author": "Xudoyberdi To'xtaboyev",
+    "id": 2
+  },
+  {
+    "title": "Utkan kunlar",
+    "author": "Abdulla Qodiriy",
+    "id": 3
+  },
+  {
+    "title": "Shum bola",
+    "author": "G'ofur G'ulom",
+    "id": 4
+  },
+  {
+    "title": "Shaytanat",
+    "author": "Said Ahmad",
+    "id": 5
   }
 ]
