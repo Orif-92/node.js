@@ -3,30 +3,26 @@ const fs = require('fs');
 
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
-
+  
   if (req.method === 'GET' && req.url === '/books') {
-    // books.json faylini o'qish
-    fs.readFile('books.json', 'utf8', (err, data) => {
+    fs.readFile('books.json', (err, data) => {
       if (err) {
         res.statusCode = 500;
-        res.end(JSON.stringify({ message: 'Serverda xatolik yuz berdi' }));
+        res.end(JSON.stringify({ message: 'Xatolik yuz berdi' }));
       } else {
         res.statusCode = 200;
         res.end(data);
       }
     });
   } else if (req.method === 'GET' && req.url.startsWith('/books/')) {
-    // :id bo'yicha qidirish
-    const id = req.url.split('/').pop(); // URL dan id ni olish
-
-    fs.readFile('books.json', 'utf8', (err, data) => {
+    const id = req.url.split('/').pop();
+    fs.readFile('books.json', (err, data) => {
       if (err) {
         res.statusCode = 500;
-        res.end(JSON.stringify({ message: 'Serverda xatolik yuz berdi' }));
+        res.end(JSON.stringify({ message: 'Xatolik yuz berdi' }));
       } else {
         const books = JSON.parse(data);
-        const book = books.find((item) => item.id === parseInt(id));
-
+        const book = books.find((b) => b.id === parseInt(id));
         if (book) {
           res.statusCode = 200;
           res.end(JSON.stringify(book));
@@ -34,6 +30,38 @@ const server = http.createServer((req, res) => {
           res.statusCode = 404;
           res.end(JSON.stringify({ message: 'Ma\'lumot topilmadi' }));
         }
+      }
+    });
+  } else if (req.method === 'POST' && req.url === '/books') {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+      try {
+        const newBook = JSON.parse(body);
+        fs.readFile('books.json', (err, data) => {
+          if (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ message: 'Xatolik yuz berdi' }));
+          } else {
+            const books = JSON.parse(data);
+            newBook.id = books.length + 1;
+            books.push(newBook);
+            fs.writeFile('books.json', JSON.stringify(books), (err) => {
+              if (err) {
+                res.statusCode = 500;
+                res.end(JSON.stringify({ message: 'Xatolik yuz berdi' }));
+              } else {
+                res.statusCode = 201;
+                res.end(JSON.stringify(newBook));
+              }
+            });
+          }
+        });
+      } catch (error) {
+        res.statusCode = 400;
+        res.end(JSON.stringify({ message: 'Noto\'g\'ri so\'rovnoma formati' }));
       }
     });
   } else {
